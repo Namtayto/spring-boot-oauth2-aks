@@ -9,6 +9,7 @@ import com.example.springsocial.payload.LoginRequest;
 import com.example.springsocial.payload.SignUpRequest;
 import com.example.springsocial.repository.UserRepository;
 import com.example.springsocial.security.TokenProvider;
+import com.microsoft.applicationinsights.TelemetryClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -38,8 +39,12 @@ public class AuthController {
     @Autowired
     private TokenProvider tokenProvider;
 
+    private final TelemetryClient telemetryClient = new TelemetryClient();
+
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+        // send event
+        telemetryClient.trackEvent("URI /login is triggered from user has email" + loginRequest.getEmail());
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -56,6 +61,9 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
+        // send event
+        telemetryClient.trackEvent("URI /signup is triggered; signup for user has email: " + signUpRequest.getEmail());
+
         if(userRepository.existsByEmail(signUpRequest.getEmail())) {
             throw new BadRequestException("Email address already in use.");
         }
