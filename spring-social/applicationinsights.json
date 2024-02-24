@@ -1,0 +1,15 @@
+{
+
+  "connectionString": "InstrumentationKey=6356654c-fc59-439f-949b-479cbbe35891",
+
+  "instrumentation": {
+
+    "logging": {
+
+      "level": "DEBUG"
+
+    }
+
+  }
+
+}
