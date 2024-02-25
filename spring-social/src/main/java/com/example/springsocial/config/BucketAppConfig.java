@@ -12,5 +12,10 @@ public class BucketAppConfig implements WebMvcConfigurer {
     public BucketAppConfig(RateLimitInterceptor interceptor) {
         this.interceptor = interceptor;
     }
-    
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(interceptor)
+                .addPathPatterns("/auth/login")
+                .addPathPatterns("auth/signup");
+    }
 }
