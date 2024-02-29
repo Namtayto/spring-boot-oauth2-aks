@@ -49,5 +49,27 @@ Using Postman to spam request to server:
 When request quota is consumed, it will throw error with 429 code which is Too many requests.
 ![image](https://github.com/Namtayto/spring-boot-oauth2-aks/assets/98264996/da5a1ca0-cacf-448d-a012-f73e961a4467)
 
+## Azure Services:
+### Azure Container Registry:
++ Write the Dockerfile:
+```md
+FROM maven:3.8.5-openjdk-17 AS build
+COPY . .
+RUN mvn clean package -Pprod -DskipTests
 
+FROM openjdk:17.0.1-jdk-slim
+EXPOSE 8080
+COPY applicationinsights-agent-3.4.19.jar /
+COPY applicationinsights.json /
+COPY --from=build /target/spring-social-0.0.1-SNAPSHOT.jar spring-social.jar
+ENTRYPOINT ["java", "-javaagent:/applicationinsights-agent-3.4.19.jar","-jar","spring-social.jar"]
+```
++ Push the image of Web application on Azure Container Registry
+``` md
+docker build -t spring-social .
+az acr login --name springimage
+docker tag spring-social:latest springimage.azurecr.io/spring-social:latest
+docker push springimage.azurecr.io/spring-project:latest
+```
+![image](https://github.com/Namtayto/spring-boot-oauth2-aks/assets/98264996/8d53b211-0390-4730-89da-4cdb55b9b43a)
 
