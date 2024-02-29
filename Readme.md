@@ -1,76 +1,53 @@
-# Spring Boot React OAuth2 Social Login Demo
+<h1 align="center"> <strong>SECURING AND ORCHESTRATING OAUTH2 WEB APPLICATION APIs USING SPRING SECURITY AND AZURE SERVICES</strong> </h1>
+<h3 align="center"> <strong>:point_right: This is my project for the network security course at university (NT140) :point_left:</strong> </h3>
+<p>This report will demonstrate how Spring Security can effectively prevent common security risks in web applications such as authentication-based attacks, authorization errors, CORS attacks, and DDoS. Furthermore, I will provide a detailed explanation of how Azure services can be utilized to deploy and orchestrate the web application.</p>
 
-![App Screenshot](screenshot.png)
+#### An actual version of frontend build deployed to Vercel and backend deployed to Azure Kubernetes Service:
+https://atmproject.vercel.app <br>
 
-## Setting up the Backend Server (spring-social)
+## Overview:
+<h3 align="center"> <strong>Sign up page</strong> </h3>
 
-+ **Create MySQL database**
+![image](https://github.com/Namtayto/spring-boot-oauth2-aks/assets/98264996/e9954bf3-3f93-4a36-9e9e-8bf23bddaa9d)
 
-	```bash
-	mysql> create database spring_social
-	```
+<h3 align="center"> <strong>Sign in page</strong> </h3>
 
-+ **Configure database username and password**
+![image](https://github.com/Namtayto/spring-boot-oauth2-aks/assets/98264996/40be4f13-c0c3-48a9-97be-3c164d595060)
 
-	```yml
-	# spring-social/src/main/resources/application.yml
-	spring:
-	    datasource:
-	        url: jdbc:mysql://localhost:3306/spring_social?useSSL=false
-	        username: <YOUR_DB_USERNAME>
-	        password: <YOUR_DB_PASSWORD>
-	```
+<h3 align="center"> <strong>After signing in the server fetches your mail, image, and name of your Google and GitHub account then shows to /profile:</strong> </h3>
 
-+ **Specify OAuth2 Provider ClientId's and ClientSecrets**
-	
-	> This is optional if you're testing the app in localhost. A demo clientId and clientSecret is already specified.
+![image](https://github.com/Namtayto/spring-boot-oauth2-aks/assets/98264996/8c92897e-bedf-41e0-905b-98903f8df14e)
 
-	```yml
-    security:
-      oauth2:
-        client:
-          registration:
-            google:
-              clientId: <GOOGLE_CLIENT_ID>
-              clientSecret: <GOOGLE_CLIENT_SECRET>
-              redirectUriTemplate: "{baseUrl}/oauth2/callback/{registrationId}"
-              scope:
-                - email
-                - profile
-            facebook:
-              clientId: <FACEBOOK_CLIENT_ID>
-              clientSecret: <FACEBOOK_CLIENT_SECRET>
-              redirectUriTemplate: "{baseUrl}/oauth2/callback/{registrationId}"
-              scope:
-                - email
-                - public_profile
-            github:
-              clientId: <GITHUB_CLIENT_ID>
-              clientSecret: <GITHUB_CLIENT_SECRET>
-              redirectUriTemplate: "{baseUrl}/oauth2/callback/{registrationId}"
-              scope:
-                - user:email
-                - read:user
-          provider:
-            facebook:
-              authorizationUri: https://www.facebook.com/v3.0/dialog/oauth
-              tokenUri: https://graph.facebook.com/v3.0/oauth/access_token
-              userInfoUri: https://graph.facebook.com/v3.0/me?fields=id,first_name,middle_name,last_name,name,email,verified,is_verified,picture.width(250).height(250)
-	```
 
-	*Please make sure that `http://localhost:8080/oauth2/callback/<provider>`* is added as an authorized redirect uri in the OAuth2 provider. For example, In your [Google API console](https://console.developers.google.com/projectselector/apis/credentials?pli=1), make sure that `http://localhost:8080/oauth2/callback/google` is added in the **Authorized redirect URIs**
+## Used Technologies:
 
-	*Also, make sure that the above mentioned scopes are added in the OAuth2 provider console.*	For example, scope `email` and `profile` should be added in your Google project's OAuth2 consent screen.
+* **Back-end:** Spring (Boot, Data, Security), JPA / Hibernate, PostgreSQL, Bucket4J
+* **Front-end:** React.js
+* **Security:** Oauth2, Rate Limiting
+* **Azure:** AKS, ACR, AML, Azure Monitor, Application Insights, Grafana, Prometheus
+* **Deploy:** Vercel, AKS
+* DNS: dnsexit
+  
+## Features:
+* Regular Username/Password authentication.
+* Sign in using either your Google or GitHub account.
+* Monitoring and tracking APIs
+* Implement rate limiting for APIs
 
-+ **Run spring-social**
+## Rate Limiting:
+IP Address based rate limiting on rest APIs by using Token Bucket Algorithm:
+![image](https://github.com/Namtayto/spring-boot-oauth2-aks/assets/98264996/0aef88f7-5d75-41db-a0a8-5471c4f99fce)
 
-	```bash
-	mvn spring-boot:run
-	```
+Rate limiting typically involves tracking the IP addresses where requests originate and identifying the time lapsed between requests. IP addresses are the application's main way to identify who has made each request. When request quota is consumed, it will throw error with 429 code which is Too many requests. <br>
+The token bucket algorithm enables a network to allow or deny requests based on current traffic. Each bucket holds a certain number of tokens that represent network requests (e.g., attempting to log into an account or sending a message). Whenever a user sends a request, another token gets added to the bucket.
 
-## Setting up the Frontend Server (react-social)
+**Test rate limit:**
+<br>
+Using Postman to spam request to server:
+![image](https://github.com/Namtayto/spring-boot-oauth2-aks/assets/98264996/1a417e14-1c47-4d97-9333-148ae2bcc32a)
 
-```bash
-cd react-social
-npm install && npm start
-```
+When request quota is consumed, it will throw error with 429 code which is Too many requests.
+![image](https://github.com/Namtayto/spring-boot-oauth2-aks/assets/98264996/da5a1ca0-cacf-448d-a012-f73e961a4467)
+
+
+
