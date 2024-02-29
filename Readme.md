@@ -73,3 +73,11 @@ docker push springimage.azurecr.io/spring-project:latest
 ```
 ![image](https://github.com/Namtayto/spring-boot-oauth2-aks/assets/98264996/8d53b211-0390-4730-89da-4cdb55b9b43a)
 
+### Azure Kubernetes Service:
+Expose the image as the service type load balancer in Azure Kubernetes:
+```md
+kubectl apply -f docker-k8s.yaml
+kubectl get deployment
+kubectl expose deployment docker-k8s-demo-deployment --port=80 --protocol=TCP --target-port=8080 --type=LoadBalancer
+```
+![image](https://github.com/Namtayto/spring-boot-oauth2-aks/assets/98264996/8143d5a9-a6b4-4ea2-931e-220e541c0497)
