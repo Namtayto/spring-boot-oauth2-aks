@@ -114,3 +114,31 @@ kubectl expose deployment docker-k8s-demo-deployment --port=80 --protocol=TCP --
 
 + Based on the Alert we can scale up or scale down the Virtual Machine to save money:
 ![image](https://github.com/Namtayto/spring-boot-oauth2-aks/assets/98264996/279a6b63-4a63-4435-82b5-3b00ae00c631)
+
+### Application Insight
++ On the map of our application, you can see the request being made to the cloud database node:
+![image](https://github.com/Namtayto/spring-boot-oauth2-aks/assets/98264996/97e222fd-582b-491d-af33-682749b270b7)
+
++ Trigger the email of users when they log in or signup:
+![image](https://github.com/Namtayto/spring-boot-oauth2-aks/assets/98264996/52d0b87d-f7bc-4f12-b991-7c98eed0642e)
+
+## Azure Machine Learning
++ Retrieve the data monitor from Application Insights and export it as a CSV file to use as the dataset in Azure Machine Learning:
+![image](https://github.com/Namtayto/spring-boot-oauth2-aks/assets/98264996/19d4be0d-26da-42d2-a85b-cbd1e28400ae)
+
++ Using Jupyter Notebook connect to workspace has the dataset:
+![image](https://github.com/Namtayto/spring-boot-oauth2-aks/assets/98264996/aa511ca8-48ef-4b6b-97f0-701981df9796)
+
++ Read the dataset using pandas:
+![image](https://github.com/Namtayto/spring-boot-oauth2-aks/assets/98264996/39baa3d2-655f-4cbb-a7e4-985d1fc1f8da)
+
++ Draw graph:
+![image](https://github.com/Namtayto/spring-boot-oauth2-aks/assets/98264996/9fdee7b7-54d3-43a6-ac32-2d8d1aeafb76)
+
+![image](https://github.com/Namtayto/spring-boot-oauth2-aks/assets/98264996/b9503877-86be-42d6-9727-8cdf6e590644)
+
++ Calculate Mean Squared Error and Coefficients of the model:
+![image](https://github.com/Namtayto/spring-boot-oauth2-aks/assets/98264996/90039e49-dbf7-49d0-a3dd-8a22167908af)
+
+
+
